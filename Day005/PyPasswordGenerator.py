@@ -13,21 +13,22 @@ nr_numbers = int(input(f"How many numbers would you like?\n"))
 password = ""
 
 characters = nr_letters + nr_symbols + nr_numbers
-print(characters)
-for char_loop in range (0, characters + 1):
+chars_added = 0
+# while loops not introduced yet in the class
+while chars_added < characters:
     which = random.randint(0,2)
     if which == 0 and nr_letters > 0:
-        print("letter")
         nr_letters -= 1
-        password = password + letters[random.randint(0, len(letters) - 1)]
+        chars_added += 1
+        password += random.choice(letters)
     elif which == 1 and nr_symbols > 0:
-        print("symbol")
         nr_symbols -= 1
-        password = password + numbers[random.randint(0,len(symbols) - 1)]
+        chars_added += 1
+        password += random.choice(numbers)
     elif which == 2 and nr_numbers > 0:
-        print("number")
         nr_numbers -= 1
-        password = password + symbols[random.randint(0, len(numbers) - 1)]
+        chars_added += 1
+        password += random.choice(symbols)
 
 
 print("Here is your super secret password - keep it secure!")
