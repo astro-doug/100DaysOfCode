@@ -5,6 +5,7 @@ import random
 HARD_GUESS_LIMIT = 5
 EASY_GUESS_LIMIT = 10
 
+
 def cls() -> None:
     os.system('cls' if os.name == 'nt' else 'clear')
 
