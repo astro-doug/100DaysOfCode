@@ -18,6 +18,7 @@
 # Each card just represents a value, make it represent a suit and value
 # Replace text card values with ASCII art
 # Add multi-player (pass and play) support
+# Create a set of Dictionaries to hold player and dealer. Elements will include name, hand, and win/loss record
 
 
 from art import logo
@@ -77,6 +78,13 @@ def display_hand(is_dealer: bool, name: str, hand: list[str]) -> None:
 
 
 def deal_initial_table():
+    global dealer_hand
+    global player_hand
+    global is_game_over
+
+    dealer_hand = []
+    player_hand = []
+    is_game_over = False
     for _ in range(2):
         dealer_hand.append(deal_card())
     for _ in range(2):
@@ -92,7 +100,7 @@ def handle_dealer(hand: list[str]) -> None:
     display_hand(True, "Dealer", hand)
 
 
-def show_final_results():
+def show_final_results(player_name: str):
     player_busted = check_if_bust(player_hand)
     player_hand_total = get_hand_total(player_hand)
     player_bust_text: str = "BUST" if player_busted else ""
@@ -123,27 +131,36 @@ def check_if_blackjack(hand: list[str]) -> bool:
     return get_hand_total(hand) == 21 and len(hand) == 2
 
 
-cls()
-print(logo)
-player_name: str = input("What is your name? ")
+def play_blackjack(player_name: str) -> None:
+    cls()
 
-deal_initial_table()
+    deal_initial_table()
 
-display_hand(False, player_name, player_hand)
-display_hand(True, "Dealer", dealer_hand)
-if not check_if_blackjack(player_hand) and not check_if_blackjack(dealer_hand):
-    keep_playing: bool = True
-    while keep_playing:
-        if check_if_bust(player_hand):
-            # print(f"You BUST with {get_hand_total(player_hand)}. You lose!")
-            keep_playing = False
-        else:
-            hit: bool = bool(input("'H'it or 'P'ass? ").upper() == 'H')
-            if not hit:
+    display_hand(False, player_name, player_hand)
+    display_hand(True, "Dealer", dealer_hand)
+    if not check_if_blackjack(player_hand) and not check_if_blackjack(dealer_hand):
+        keep_playing: bool = True
+        while keep_playing:
+            if check_if_bust(player_hand):
+                # print(f"You BUST with {get_hand_total(player_hand)}. You lose!")
                 keep_playing = False
-                handle_dealer(dealer_hand)
             else:
-                player_hand.append(deal_card())
-                display_hand(False, player_name, player_hand)
+                hit: bool = bool(input("'H'it or 'P'ass? ").upper() == 'H')
+                if not hit:
+                    keep_playing = False
+                    handle_dealer(dealer_hand)
+                else:
+                    player_hand.append(deal_card())
+                    display_hand(False, player_name, player_hand)
 
-show_final_results()
+    show_final_results(player_name)
+
+
+if __name__ == "__main__":
+    cls()
+    print(logo)
+    player_name: str = input("What is your name? ")
+    play_again: bool = True
+    while play_again:
+        play_blackjack(player_name)
+        play_again = input("Play again y/n? ").lower() == "y"
