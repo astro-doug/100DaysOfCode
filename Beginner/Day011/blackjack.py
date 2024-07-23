@@ -38,8 +38,8 @@ player_hand: list[str] = []
 is_game_over: bool = False
 
 
-def deal_card(hand: list[str]) -> None:
-    hand.append(random.choice(cards))
+def deal_card() -> str:
+    return random.choice(cards)
     # print(f"Dealt a {hand[-1]}")
 
 
@@ -76,16 +76,16 @@ def display_hand(is_dealer: bool, name: str, hand: list[str]) -> None:
 
 
 def deal_initial_table():
-    deal_card(dealer_hand)
-    deal_card(player_hand)
-    deal_card(dealer_hand)
-    deal_card(player_hand)
+    dealer_hand.append(deal_card())
+    player_hand.append(deal_card())
+    dealer_hand.append(deal_card())
+    player_hand.append(deal_card())
 
 
 def handle_dealer(hand: list[str]) -> None:
     global is_game_over
     while not check_if_bust(hand) and get_hand_total(hand) < DEALER_HIT_LIMIT:
-        deal_card(hand)
+        hand.append(deal_card())
 
     is_game_over = True
     display_hand(True, "Dealer", hand)
@@ -132,7 +132,7 @@ while keep_playing:
             keep_playing = False
             handle_dealer(dealer_hand)
         else:
-            deal_card(player_hand)
+            player_hand.append(deal_card())
             display_hand(False, player_name, player_hand)
 
 show_final_results()
