@@ -11,7 +11,7 @@
 # Cards are not removed from the deck as they are drawn.
 # The computer is the dealer.
 #TODO Ace is always treated as an 11 - allow for it to be a 1 or 11
-#TODO Being dealt BlackJack should immediately end the game with that player as the winner
+
 
 # Enhancement ideas
 # Shuffle multiple decks of cards together, and as each card is dealt, remove that from the deck
@@ -95,22 +95,32 @@ def handle_dealer(hand: list[str]) -> None:
 def show_final_results():
     player_busted = check_if_bust(player_hand)
     player_hand_total = get_hand_total(player_hand)
-    bust_text: str = "BUST" if player_busted else ""
+    player_bust_text: str = "BUST" if player_busted else ""
+    player_blackjack_text: str = "BLACKJACK" if check_if_blackjack(player_hand) else ""
 
     dealer_hand_total = get_hand_total(dealer_hand)
+    dealer_busted = check_if_bust(dealer_hand)
+    dealer_bust_text: str = "BUST" if dealer_busted else ""
+    dealer_blackjack_text: str = "BLACKJACK" if check_if_blackjack(dealer_hand) else ""
 
     print()
     print("Final Results: ")
     display_hand(False, player_name, player_hand)
-    print(f"{player_name}'s Total: {player_hand_total} {bust_text}")
+    print(f"{player_name}'s Total: {player_hand_total} {player_bust_text} {player_blackjack_text}")
     display_hand(True, "Dealer", dealer_hand)
-    print(f"Dealer's Total: {dealer_hand_total}")
+    print(f"Dealer's Total: {dealer_hand_total} {dealer_bust_text} {dealer_blackjack_text}")
 
     if ((not player_busted) and (player_hand_total > dealer_hand_total)
-            and (not check_if_bust(dealer_hand))):
+            or dealer_busted) and (not check_if_blackjack(dealer_hand)):
         print("YOU WIN!")
+    elif player_hand_total == dealer_hand_total and not (player_busted or dealer_busted):
+        print("DRAW!")
     else:
         print("YOU LOSE!")
+
+
+def check_if_blackjack(hand: list[str]) -> bool:
+    return get_hand_total(hand) == 21 and len(hand) == 2
 
 
 cls()
@@ -121,19 +131,19 @@ deal_initial_table()
 
 display_hand(False, player_name, player_hand)
 display_hand(True, "Dealer", dealer_hand)
-
-keep_playing: bool = True
-while keep_playing:
-    if check_if_bust(player_hand):
-        # print(f"You BUST with {get_hand_total(player_hand)}. You lose!")
-        keep_playing = False
-    else:
-        hit: bool = bool(input("'H'it or 'P'ass? ").upper() == 'H')
-        if not hit:
+if not check_if_blackjack(player_hand) and not check_if_blackjack(dealer_hand):
+    keep_playing: bool = True
+    while keep_playing:
+        if check_if_bust(player_hand):
+            # print(f"You BUST with {get_hand_total(player_hand)}. You lose!")
             keep_playing = False
-            handle_dealer(dealer_hand)
         else:
-            player_hand.append(deal_card())
-            display_hand(False, player_name, player_hand)
+            hit: bool = bool(input("'H'it or 'P'ass? ").upper() == 'H')
+            if not hit:
+                keep_playing = False
+                handle_dealer(dealer_hand)
+            else:
+                player_hand.append(deal_card())
+                display_hand(False, player_name, player_hand)
 
 show_final_results()
