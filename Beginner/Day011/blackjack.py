@@ -1,4 +1,5 @@
-# Our Blackjack House Rules
+# Program Blackjack House Rules
+# simplified rules to make the program easier to write - this is about learning Python, not replicating BlackJack
 
 # The deck is unlimited in size.
 # There are no jokers.
@@ -9,6 +10,13 @@
 # The cards in the list have equal probability of being drawn.
 # Cards are not removed from the deck as they are drawn.
 # The computer is the dealer.
+#TODO Ace is always treated as an 11 - allow for it to be a 1 or 11
+
+# Enhancement ideas
+# Shuffle multiple decks of cards together, and as each card is dealt, remove that from the deck
+# Each card just represents a value, make it represent a suit and value
+# Replace text card values with ASCII art
+# Add multi-player (pass and play) support
 
 
 from art import logo
