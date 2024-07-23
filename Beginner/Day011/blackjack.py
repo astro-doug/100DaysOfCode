@@ -11,6 +11,7 @@
 # Cards are not removed from the deck as they are drawn.
 # The computer is the dealer.
 #TODO Ace is always treated as an 11 - allow for it to be a 1 or 11
+#TODO Being dealt BlackJack should immediately end the game with that player as the winner
 
 # Enhancement ideas
 # Shuffle multiple decks of cards together, and as each card is dealt, remove that from the deck
