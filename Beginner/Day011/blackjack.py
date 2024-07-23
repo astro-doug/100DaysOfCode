@@ -77,10 +77,10 @@ def display_hand(is_dealer: bool, name: str, hand: list[str]) -> None:
 
 
 def deal_initial_table():
-    dealer_hand.append(deal_card())
-    player_hand.append(deal_card())
-    dealer_hand.append(deal_card())
-    player_hand.append(deal_card())
+    for _ in range(2):
+        dealer_hand.append(deal_card())
+    for _ in range(2):
+        player_hand.append(deal_card())
 
 
 def handle_dealer(hand: list[str]) -> None:
