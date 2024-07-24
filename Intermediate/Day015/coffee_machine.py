@@ -34,8 +34,8 @@ def display_menu() -> None:
         print(f"{key.title()} -> ${data.MENU[key]["cost"]:.2f}")
 
 
-def take_money(drink: str) -> float:
-    cost: float = data.MENU[drink]["cost"]
+def take_money(drink: dict) -> float:
+    cost: float = drink["cost"]
     num_pennies: int = int(input("Number of Pennies: "))
     num_nickles: int = int(input("Number of Nickles: "))
     num_dimes: int = int(input("Number of Dimes: "))
@@ -52,19 +52,19 @@ def deposit_funds(amount: float) -> None:
     data.resources["money"] += amount
 
 
-def give_change(drink: str, amount_taken: float) -> None:
-    change: float = amount_taken - data.MENU[drink]["cost"]
+def give_change(drink: dict, amount_taken: float) -> None:
+    change: float = amount_taken - drink["cost"]
     print(f"Change given: ${change:.2f}")
 
 
-def check_resources(drink: str) -> str:
+def check_resources(drink: dict) -> str:
     low_resource: str = ""
-    water_required: int = data.MENU[drink]["ingredients"]["water"]
+    water_required: int = drink["ingredients"]["water"]
     try:
-        milk_required: int = data.MENU[drink]["ingredients"]["milk"]
+        milk_required: int = drink["ingredients"]["milk"]
     except KeyError:
         milk_required = 0
-    coffee_required: int = data.MENU[drink]["ingredients"]["coffee"]
+    coffee_required: int = drink["ingredients"]["coffee"]
 
     if water_required > data.resources["water"]:
         low_resource = "water"
@@ -76,35 +76,36 @@ def check_resources(drink: str) -> str:
     return low_resource
 
 
-def brew_coffee(drink: str) -> None:
-    data.resources["water"] -= data.MENU[drink]["ingredients"]["water"]
+def brew_coffee(drink: dict) -> None:
+    data.resources["water"] -= drink["ingredients"]["water"]
     try:
-        data.resources["milk"] -= data.MENU[drink]["ingredients"]["milk"]
+        data.resources["milk"] -= drink["ingredients"]["milk"]
     except KeyError:
         data.resources["milk"] = data.resources["milk"]
-    data.resources["coffee"] -= data.MENU[drink]["ingredients"]["coffee"]
+    data.resources["coffee"] -= drink["ingredients"]["coffee"]
     print()
     print(art.coffee_cup)
     print("Enjoy!")
     print()
 
 
-def handle_order(drink: str) -> None:
-    if drink.lower() not in ("espresso", "latte", "cappuccino"):
+def handle_order(drink_name: str) -> None:
+    if drink_name.lower() not in ("espresso", "latte", "cappuccino"):
         print("\nInvalid order - please try again\n")
     else:
+        drink: dict = data.MENU[drink_name]
         low_resource: str = check_resources(drink)
         if low_resource == "":
-            print(f"Order for {drink.title()}. That will be ${data.MENU[drink]["cost"]:.2f} please.")
+            print(f"Order for {drink_name.title()}. That will be ${drink["cost"]:.2f} please.")
             money_taken: float = take_money(drink)
-            if money_taken >= data.MENU[drink]["cost"]:
+            if money_taken >= drink["cost"]:
                 give_change(drink, money_taken)
-                deposit_funds(data.MENU[drink]["cost"])
+                deposit_funds(drink["cost"])
                 brew_coffee(drink)
             else:
                 print("Insufficient funds.")
         else:
-            print(f"Sorry, there is insufficient {low_resource} to make your {drink}")
+            print(f"Sorry, there is insufficient {low_resource} to make your {drink_name}")
 
 
 def take_order() -> None:
