@@ -10,3 +10,5 @@ the code to be better, with a later check-in on Git - see check-in comments
 Day006 did not have a final project to write, but used "Reeborg's World"
 https://reeborg.ca/reeborg.html?lang=en&mode=python&menu=worlds%2Fmenus%2Freeborg_intro_en.json&name=Maze&url=worlds%2Ftutorial_en%2Fmaze1.json
 
+Day013 did not have a final project to write, it was videos on debugging
+
