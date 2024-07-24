@@ -103,7 +103,7 @@ def handle_order(drink_name: str) -> None:
                 deposit_funds(drink["cost"])
                 brew_coffee(drink)
             else:
-                print("Insufficient funds.")
+                print("Insufficient funds. Check the coin return for your refund.")
         else:
             print(f"Sorry, there is insufficient {low_resource} to make your {drink_name}")
 
