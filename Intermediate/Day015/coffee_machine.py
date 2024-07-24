@@ -85,7 +85,7 @@ def brew_coffee(drink: dict) -> None:
     data.resources["coffee"] -= drink["ingredients"]["coffee"]
     print()
     print(art.coffee_cup)
-    print("Enjoy!")
+    print("Enjoy! ☕️")
     print()
 
 
