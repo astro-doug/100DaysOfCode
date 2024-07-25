@@ -13,6 +13,7 @@ import os
 def cls() -> None:
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
 def display_menu() -> None:
     print("MENU:")
     menu: Menu = Menu()
@@ -33,10 +34,6 @@ def handle_order(coffee_maker: CoffeeMaker, money_machine: MoneyMachine, drink_n
             print(f"Order for {drink.name}. That will be ${drink.cost:.2f} please.")
             if money_machine.make_payment(drink.cost):
                 coffee_maker.make_coffee(drink)
-            else:
-                print("Insufficient funds. Check the coin return for your refund.")
-        else:
-            print(f"Sorry, there are insufficient resources to make your {drink_name}")
 
 
 def take_order(coffee_maker: CoffeeMaker, money_machine: MoneyMachine):
