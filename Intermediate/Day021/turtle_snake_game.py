@@ -9,9 +9,12 @@
 # Detect collision with wall
 # Detect collision with tail
 
+#TODO: Rewrite to use PyGame instead of Python Turtle
+
 from turtle import Screen
 from snake import Snake
-# from food import Food
+from food import Food
+from scoreboard import Scoreboard
 import time
 
 snake_head: Snake = Snake()
@@ -54,18 +57,52 @@ def setup_screen() -> Screen():
     return screen
 
 
+def check_food_collision(food: Food) -> bool:
+    global snake_head
+    if snake_head.snake_segments[0].distance(food.x_pos, food.y_pos) < 15:
+        return True
+    else:
+        return False
+
+
+def check_edge_collision() -> bool:
+    global snake_head
+
+    if (snake_head.snake_segments[0].xcor() <= -SCREEN_WIDTH/2 - 20
+            or snake_head.snake_segments[0].xcor() >= SCREEN_WIDTH/2 - 20
+            or snake_head.snake_segments[0].ycor() <= -SCREEN_HEIGHT/2 - 20
+            or snake_head.snake_segments[0].ycor() >= SCREEN_HEIGHT/2 - 20):
+        return True
+    else:
+        return False
+
+
 def main() -> None:
+    global snake_head
     screen: Screen = setup_screen()
+    scoreboard: Scoreboard = Scoreboard()
+    scoreboard.update_scoreboard()
 
     still_playing: bool = True
-    # food: Food = Food()
-    # food.add_food(SCREEN_WIDTH - 10, SCREEN_HEIGHT - 10)
+    food: Food = Food()
+    food.set_food_bounds(x_size=SCREEN_WIDTH - 10, y_size=SCREEN_HEIGHT - 10)
+    food.add_food()
 
     while still_playing:
         time.sleep(.15)
-        snake_head.grow_snake()
+        snake_head.move()
         screen.update()
-
+        if check_food_collision(food):
+            snake_head.grow()
+            scoreboard.score_point()
+            scoreboard.update_scoreboard()
+            food.move_food()
+        if check_edge_collision():
+            still_playing = False
+            scoreboard.game_over()
+        if snake_head.detect_tail_collision():
+            still_playing = False
+            scoreboard.game_over()
     screen.exitonclick()
 
 
