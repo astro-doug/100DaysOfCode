@@ -9,7 +9,7 @@
 # Detect collision with wall
 # Detect collision with tail
 
-from turtle import  Screen
+from turtle import Screen
 from snake import Snake
 # from food import Food
 import time
