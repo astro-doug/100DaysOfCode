@@ -32,7 +32,7 @@ class ScoreBoard(Turtle):
     def update_scoreboard(self) -> None:
         global SCORE_FONT
         self.clear()
-        self.write(f"{player_score}                    {computer_score}", align=ALIGNMENT, font=SCORE_FONT)
+        self.write(f"{player_score}               {computer_score}", align=ALIGNMENT, font=SCORE_FONT)
 
     def game_over(self) -> None:
         global GAME_OVER_FONT
