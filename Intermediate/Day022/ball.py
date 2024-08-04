@@ -23,43 +23,30 @@ class Ball(Turtle):
         self.fillcolor("red")
         self.penup()
 
+    def bounce_off_wall(self) -> None:
+        self.current_direction = self.CIRCLE_DEGREES - self.current_direction
+
+    def bounce_off_paddle(self) -> None:
+        self.current_direction = int(self.CIRCLE_DEGREES / 2) - self.current_direction
+        self.move()
+
     def detect_wall_collision(self, screen_height: int) -> None:
         if self.ycor() >= screen_height / 2 - self.BALL_WIDTH:
-            self.current_direction = self.CIRCLE_DEGREES - self.current_direction
+            self.bounce_off_wall()
         elif self.ycor() <= -screen_height / 2 + self.BALL_WIDTH:
-            self.current_direction = self.CIRCLE_DEGREES - self.current_direction
+            self.bounce_off_wall()
 
     def detect_paddle_collision(self, paddle: Paddle) -> None:
         upper_y_cord: float = paddle.ycor() - int(paddle.PADDLE_HEIGHT / 2)
         lower_y_cord: float = paddle.ycor() + int(paddle.PADDLE_HEIGHT / 2)
         if paddle.player == 'left':
-            if self.xcor() <= paddle.LEFT_PADDLE_LANE:
-                print("Checking left paddle collision")
-                print(paddle.xcor())
-                print(paddle.ycor())
-                print(self.pos())
-                print(self.distance(paddle.xcor(), upper_y_cord))
-                print(self.distance(paddle.xcor(), lower_y_cord))
-
+            if self.xcor() <= paddle.LEFT_PADDLE_LANE + self.BALL_WIDTH:
                 if self.distance(paddle.xcor(), upper_y_cord) <= 50 or self.distance(paddle.xcor(), lower_y_cord) <= 50:
-                    # left collision
-                    print("left collision")
-                    self.current_direction = abs(int(self.CIRCLE_DEGREES / 4) - self.current_direction)
-                    self.move()
+                    self.bounce_off_paddle()
         elif paddle.player == 'right':
-            if self.xcor() >= paddle.RIGHT_PADDLE_LANE:
-                print("Checking right paddle collision")
-                print(paddle.xcor())
-                print(paddle.ycor())
-                print(self.pos())
-                print(self.distance(paddle.xcor(), upper_y_cord))
-                print(self.distance(paddle.xcor(), lower_y_cord))
-
+            if self.xcor() >= paddle.RIGHT_PADDLE_LANE - self.BALL_WIDTH:
                 if self.distance(paddle.xcor(), upper_y_cord) <= 50 or self.distance(self.xcor(), lower_y_cord) <= 50:
-                    # left collision
-                    print("right collision")
-                    self.current_direction = abs(int(self.CIRCLE_DEGREES / 4) - self.current_direction)
-                    self.move()
+                    self.bounce_off_paddle()
 
     def __init__(self):
         super().__init__()
