@@ -6,6 +6,8 @@ import time
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+LEFT_PADDLE_LANE = -350
+RIGHT_PADDLE_LANE = 350
 right_player_paddle: Paddle
 left_player_paddle: Paddle
 
@@ -68,20 +70,21 @@ def main() -> None:
     screen: Screen = setup_screen()
     scoreboard: ScoreBoard = ScoreBoard()
 
-    left_player_paddle = Paddle('left')
-    right_player_paddle = Paddle('right')
+    left_player_paddle = Paddle(player='left', paddle_lane=-350)
+    right_player_paddle = Paddle(player='right', paddle_lane=350)
+
     ball: Ball = Ball()
 
     still_playing: bool = True
     while still_playing:
-        scoreboard.update_scoreboard()
         ball.move()
         ball.detect_wall_collision(SCREEN_HEIGHT)
         ball.detect_paddle_collision(left_player_paddle)
         ball.detect_paddle_collision(right_player_paddle)
-        time.sleep(.1)
-        screen.update()
 
+        scoreboard.update_scoreboard()
+        screen.update()
+        time.sleep(.1)
 
     screen.exitonclick()
 

@@ -6,10 +6,8 @@ class Paddle(Turtle):
     PADDLE_HEIGHT: int = 100
     MOVE_DISTANCE: int = 20
     SNAKE_HEADINGS: tuple[str] = ("Up", "Down")
-    LEFT_PADDLE_LANE = -350
-    RIGHT_PADDLE_LANE = 350
-    STARTING_LEFT_LOCATION: tuple[int, int] = [(LEFT_PADDLE_LANE, 0)]
-    STARTING_RIGHT_LOCATION:tuple[int, int] = [(RIGHT_PADDLE_LANE, 0)]
+    paddle_lane: int
+    starting_location: tuple[int, int]
     current_heading: SNAKE_HEADINGS
     player: str
 
@@ -46,13 +44,12 @@ class Paddle(Turtle):
         self.setheading(270)
         self.speed("fastest")
         self.penup()
-        if self.player == 'left':
-            self.goto(self.STARTING_LEFT_LOCATION[0])
-        elif self.player == 'right':
-            self.goto(self.STARTING_RIGHT_LOCATION[0])
+        self.starting_location: tuple[int, int] = [(self.paddle_lane, 0)]
+        self.goto(self.starting_location[0])
 
-    def __init__(self, player: str):
+    def __init__(self, player: str, paddle_lane: int):
         super().__init__()
         self.player = player
+        self.paddle_lane = paddle_lane
         self.init_paddle()
 

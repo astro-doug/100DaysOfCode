@@ -11,7 +11,7 @@ class Ball(Turtle):
     current_direction: DIRECTIONS
 
     def move(self) -> None:
-        print(f"Current direction: {self.current_direction}")
+        #rint(f"Current direction: {self.current_direction}")
         self.setheading(self.current_direction)
         self.forward(self.BALL_SPEED)
 
@@ -40,13 +40,18 @@ class Ball(Turtle):
         upper_y_cord: float = paddle.ycor() - int(paddle.PADDLE_HEIGHT / 2)
         lower_y_cord: float = paddle.ycor() + int(paddle.PADDLE_HEIGHT / 2)
         if paddle.player == 'left':
-            if self.xcor() <= paddle.LEFT_PADDLE_LANE + self.BALL_WIDTH:
+            if self.xcor() <= paddle.paddle_lane + self.BALL_WIDTH:
                 if self.distance(paddle.xcor(), upper_y_cord) <= 50 or self.distance(paddle.xcor(), lower_y_cord) <= 50:
                     self.bounce_off_paddle()
         elif paddle.player == 'right':
-            if self.xcor() >= paddle.RIGHT_PADDLE_LANE - self.BALL_WIDTH:
+            if self.xcor() >= paddle.paddle_lane - self.BALL_WIDTH:
                 if self.distance(paddle.xcor(), upper_y_cord) <= 50 or self.distance(self.xcor(), lower_y_cord) <= 50:
                     self.bounce_off_paddle()
+
+    def detect_out_of_bounds(self) -> str:
+        # if self.xcor() > PADDLE_LANE + self.BALL_WIDTH
+        #     return "right"
+        pass
 
     def __init__(self):
         super().__init__()
