@@ -48,10 +48,16 @@ class Ball(Turtle):
                 if self.distance(paddle.xcor(), upper_y_cord) <= 50 or self.distance(self.xcor(), lower_y_cord) <= 50:
                     self.bounce_off_paddle()
 
-    def detect_out_of_bounds(self) -> str:
-        # if self.xcor() > PADDLE_LANE + self.BALL_WIDTH
-        #     return "right"
-        pass
+    def detect_out_of_bounds(self, paddle_lane: int) -> bool:
+        if self.xcor() > paddle_lane + self.BALL_WIDTH and paddle_lane > 0:
+            return True
+        elif self.xcor() < paddle_lane - self.BALL_WIDTH and paddle_lane < 0:
+            return True
+        else:
+            return False
+
+    def stop_and_reset(self) -> None:
+        ...
 
     def __init__(self):
         super().__init__()

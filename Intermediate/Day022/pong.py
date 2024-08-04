@@ -4,10 +4,11 @@ from paddle import Paddle
 from ball import Ball
 import time
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-LEFT_PADDLE_LANE = -350
-RIGHT_PADDLE_LANE = 350
+SCREEN_WIDTH: int = 800
+SCREEN_HEIGHT: int = 600
+LEFT_PADDLE_LANE: int = -350
+RIGHT_PADDLE_LANE:int = 350
+WINNING_SCORE: int = 5
 right_player_paddle: Paddle
 left_player_paddle: Paddle
 
@@ -69,7 +70,7 @@ def main() -> None:
     global left_player_paddle, right_player_paddle
     screen: Screen = setup_screen()
     scoreboard: ScoreBoard = ScoreBoard()
-
+    scoreboard.update_scoreboard()
     left_player_paddle = Paddle(player='left', paddle_lane=-350)
     right_player_paddle = Paddle(player='right', paddle_lane=350)
 
@@ -81,12 +82,34 @@ def main() -> None:
         ball.detect_wall_collision(SCREEN_HEIGHT)
         ball.detect_paddle_collision(left_player_paddle)
         ball.detect_paddle_collision(right_player_paddle)
-
-        scoreboard.update_scoreboard()
         screen.update()
+        if ball.detect_out_of_bounds(LEFT_PADDLE_LANE):
+            scoreboard.score_point('right')
+            if scoreboard.get_score('right') == WINNING_SCORE:
+                scoreboard.game_over()
+                still_playing = False
+            else:
+                ball = reset_ball(ball, scoreboard, screen)
+        elif ball.detect_out_of_bounds(RIGHT_PADDLE_LANE):
+            scoreboard.score_point('left')
+            if scoreboard.get_score('left') == WINNING_SCORE:
+                scoreboard.game_over()
+                still_playing = False
+            else:
+                ball = reset_ball(ball, scoreboard, screen)
+
         time.sleep(.1)
 
     screen.exitonclick()
+
+
+def reset_ball(old_ball: Ball, scoreboard: ScoreBoard, screen: Screen()) -> Ball:
+    old_ball.hideturtle()
+    ball: Ball = Ball()
+    scoreboard.update_scoreboard()
+    screen.update()
+    time.sleep(3)
+    return ball
 
 
 if __name__ == '__main__':
