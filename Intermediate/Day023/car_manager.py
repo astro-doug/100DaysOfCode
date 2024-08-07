@@ -43,7 +43,7 @@ class CarManager:
             car.setx(random.randint(-200, 280))
         else:
             car.setx(CarManager.X_STARTING)
-        car.sety(int(random.randrange(-240, 280, 40)))
+        car.sety(int(random.randrange(-240, 240, 40)))
         car.setheading(180)
         car.color(random.choice(CarManager.CAR_COLORS))
         if not self.check_car_overlap(car):
@@ -57,7 +57,14 @@ class CarManager:
     def print_cars(self) -> None:
         print(f"{len(car_list)} cars")
 
+    def check_collision(self, player: Turtle) -> bool:
+        for car in car_list:
+            if player.ycor() - 10 <= car.ycor() <= player.ycor() + 10:
+                if player.xcor() - 20 <= car.xcor() <= player.xcor() + 20:
+                    return True
+        return False
+
+
     def __init__(self):
         global current_move_speed
         current_move_speed = CarManager.STARTING_MOVE_DISTANCE
-        #pass
