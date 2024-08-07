@@ -1,10 +1,11 @@
 from turtle import Turtle
+from typing import Final
 
 
 class Scoreboard(Turtle):
-    FONT: tuple[str, int, str] = ("Courier", 20, "normal")
-    LEVEL_ALIGNMENT: str = "left"
-    GAME_OVER_ALIGNMENT: str = "center"
+    FONT: Final[tuple[str, int, str]] = ("Courier", 20, "normal")
+    LEVEL_ALIGNMENT: Final[str] = "left"
+    GAME_OVER_ALIGNMENT: Final[str] = "center"
     level: int = 1
 
     def increase_level(self) -> None:

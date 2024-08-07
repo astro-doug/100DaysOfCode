@@ -1,4 +1,5 @@
 from turtle import Turtle
+from typing import Final
 import random
 
 current_move_speed: int
@@ -6,11 +7,11 @@ car_list: list[Turtle] = []
 
 
 class CarManager:
-    CAR_COLORS: tuple[str] = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
-    STARTING_MOVE_DISTANCE: int = 5
-    MOVE_SPEED_INCREMENT: int = 10
-    X_STARTING: int = 280
-    LEFT_EDGE: int = -300
+    CAR_COLORS: Final[tuple[str]] = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+    STARTING_MOVE_DISTANCE: Final[int] = 5
+    MOVE_SPEED_INCREMENT: Final[int] = 10
+    X_STARTING: Final[int] = 280
+    LEFT_EDGE: Final[int] = -300
 
     def move_cars(self) -> None:
         global car_list
