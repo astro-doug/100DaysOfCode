@@ -13,9 +13,10 @@ into my code, but those are usually commented to on the check-in comments.
 
 For some, I have gone back later and refactored the code to be better, with a later check-in on Git - see check-in comments
 
-Capstone Projects:
-Day 011 - Blackjack
-Day 023 - Turtle Crossing Game
+<ul><b>Capstone Projects:</b>
+  <li>Day 011 - Blackjack</li>
+  <li>Day 023 - Turtle Crossing Game</li>
+</ul>
 
 --------------------------------------------------------
 Details about specific days where there was no "Project"
