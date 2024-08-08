@@ -13,6 +13,11 @@ into my code, but those are usually commented to on the check-in comments.
 
 For some, I have gone back later and refactored the code to be better, with a later check-in on Git - see check-in comments
 
+Capstone Projects:
+Day 011 - Blackjack
+Day 023 - Turtle Crossing Game
+
+--------------------------------------------------------
 Details about specific days where there was no "Project"
 --------------------------------------------------------
 Day006 did not have a final project to write, but used "Reeborg's World"
