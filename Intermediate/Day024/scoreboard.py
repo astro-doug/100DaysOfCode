@@ -15,6 +15,7 @@ class Scoreboard(Turtle):
         self.hideturtle()
         self.penup()
         self.color("white")
+        self.load_high_score()
 
     def score_point(self) -> None:
         self.current_score += 1
@@ -33,10 +34,17 @@ class Scoreboard(Turtle):
         if self.current_score > self.high_score:
             self.high_score = self.current_score
             self.update_scoreboard()
+            self.save_high_score()
         self.goto(0, 0)
         self.write("GAME OVER!", align=ALIGNMENT, font=FONT)
         self.getscreen().update()
         time.sleep(5)
+        self.start_countdown()
+        self.clear()
+        self.current_score = 0
+        self.update_scoreboard()
+
+    def start_countdown(self):
         self.clear()
         self.goto(0, 0)
         self.write("Going again in 3", align=ALIGNMENT, font=FONT)
@@ -48,8 +56,20 @@ class Scoreboard(Turtle):
         self.write("                            ...1", align=ALIGNMENT, font=FONT)
         self.getscreen().update()
         time.sleep(1)
-        self.clear()
-        self.current_score = 0
-        self.update_scoreboard()
 
+    def load_high_score(self) -> None:
+        try:
+            with open("high_score.txt", mode="r") as hs_file:
+                content = hs_file.read()
+                self.high_score = int(content)
+        except FileNotFoundError:
+            self.high_score = 0
+        except ValueError:
+            self.high_score = 0
 
+    def save_high_score(self) -> None:
+        try:
+            with open("high_score.txt", mode="w") as hs_file:
+                hs_file.write(str(self.high_score))
+        except ValueError:
+            hs_file.write("0")
