@@ -15,11 +15,12 @@ from turtle import Screen
 from snake import Snake
 from food import Food
 from scoreboard import Scoreboard
+from typing import Final
 import time
 
 snake_head: Snake = Snake()
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH: Final[int] = 800
+SCREEN_HEIGHT: Final[int] = 800
 
 
 def move_north() -> None:
@@ -85,7 +86,7 @@ def main() -> None:
 
     still_playing: bool = True
     food: Food = Food()
-    food.set_food_bounds(x_size=SCREEN_WIDTH - 10, y_size=SCREEN_HEIGHT - 10)
+    food.set_food_bounds(x_size=SCREEN_WIDTH - 10, y_size=SCREEN_HEIGHT - 40)
     food.add_food()
 
     while still_playing:
@@ -95,15 +96,19 @@ def main() -> None:
         if check_food_collision(food):
             snake_head.grow()
             scoreboard.score_point()
-            scoreboard.update_scoreboard()
             food.move_food()
         if check_edge_collision():
-            still_playing = False
-            scoreboard.game_over()
+            # still_playing = False
+            reset_game(scoreboard)
         if snake_head.detect_tail_collision():
-            still_playing = False
-            scoreboard.game_over()
+            # still_playing = False
+            reset_game(scoreboard)
     screen.exitonclick()
+
+def reset_game(scoreboard: Scoreboard) -> None:
+    global snake_head
+    scoreboard.reset_game()
+    snake_head.reset_snake()
 
 
 if __name__ == '__main__':

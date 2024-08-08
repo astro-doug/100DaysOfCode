@@ -1,10 +1,11 @@
 from turtle import Turtle
+from typing import Final
 
 
 class Snake:
-    SNAKE_HEADINGS: tuple[str] = ("North", "South", "East", "West")
-    STARTING_LOCATIONS: tuple[int, int] = [(0, 0), (-10, 0), (-20, 0)]
-    MOVE_DISTANCE: int = 20
+    SNAKE_HEADINGS: Final[tuple[str]] = ("North", "South", "East", "West")
+    STARTING_LOCATIONS: Final[tuple[int, int]] = [(0, 0), (-10, 0), (-20, 0)]
+    MOVE_DISTANCE: Final[int] = 20
     snake_segments: list[Turtle] = []
     heading: SNAKE_HEADINGS
     head: Turtle
@@ -64,6 +65,13 @@ class Snake:
             if self.head.distance(segment) < 10:
                 return True
         return False
+
+    def reset_snake(self) -> None:
+        for segment in self.snake_segments:
+            segment.hideturtle()
+        self.snake_segments = []
+        self.init_snake()
+        self.heading = "East"
 
     def __init__(self):
         self.init_snake()
