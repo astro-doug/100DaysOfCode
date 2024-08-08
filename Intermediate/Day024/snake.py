@@ -69,7 +69,7 @@ class Snake:
     def reset_snake(self) -> None:
         for segment in self.snake_segments:
             segment.hideturtle()
-        self.snake_segments = []
+        self.snake_segments.clear()
         self.init_snake()
         self.heading = "East"
 
