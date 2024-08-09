@@ -64,6 +64,8 @@ def main() -> None:
             turtle.goto(x=state_data["x"][found_id], y=state_data["y"][found_id])
             turtle.write(state_data["state"][found_id], align=ALIGNMENT, font=FONT)
             score += 1
+            if score == 50:
+                still_playing = False
 
     screen.mainloop()
 
