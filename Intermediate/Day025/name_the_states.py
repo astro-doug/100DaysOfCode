@@ -35,14 +35,16 @@ def load_state_data() -> state_data_type:
 
 
 def get_id_of_guessed_state(state_data: state_data_type, state_guess: str) -> int:
-    found_id: int = 0
+    found_id: int = -1
     for keys in state_data["state"].keys():
         if state_data["state"][keys].title() == state_guess.strip().title():
             found_id = keys
             break
-    print(state_data["state"][found_id])
-    print(state_data["x"][found_id])
-    print(state_data["y"][found_id])
+    # print(state_data["state"][found_id])
+    # print(state_data["x"][found_id])
+    # print(state_data["y"][found_id])
+    # print(state_data["found"][found_id])
+    # print(found_id)
     return found_id
 
 
@@ -57,9 +59,14 @@ def main() -> None:
 
     state_data: state_data_type = load_state_data()
     while still_playing:
-        guess = screen.textinput(title=f"Guess the State {score}/50", prompt="Enter a State Name:")
+        guess: str = screen.textinput(title=f"Guess the State {score}/50", prompt="Enter a State Name:")
+        if guess.title() == 'Exit':
+            # missing_states = {state_data["state"]: state_data["state"][value] for (key, value) in state_data["found"].items() if key == "found" and value == False}
+            still_playing = False
+            # print(missing_states)
+            break
         found_id = get_id_of_guessed_state(state_data, guess)
-        if found_id > 0 and state_data["found"][found_id] is not True:
+        if found_id > -1 and state_data["found"][found_id] is not True:
             state_data["found"][found_id] = True
             turtle.goto(x=state_data["x"][found_id], y=state_data["y"][found_id])
             turtle.write(state_data["state"][found_id], align=ALIGNMENT, font=FONT)
