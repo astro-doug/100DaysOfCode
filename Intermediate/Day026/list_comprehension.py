@@ -25,5 +25,6 @@ def main() -> None:
 
     print(weather_f)
 
+
 if __name__ == '__main__':
     main()
